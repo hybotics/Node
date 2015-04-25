@@ -5,12 +5,16 @@ function logit (s) {
 	console.log(st);
 }
 
-exports.start = function (response) {
-	logit('start');
-	
-	var content = "EMPTY"
+function out (error, stdout, stderr) {
+	response.writeHead(200, {"Content-Type": "text/plain""});
+	response.write(stdout);
+	response.end();
+}
 
-	exec ("ls -lah", function (error, stdout, stderr) {
+exports.start (response) {
+	logit('start');
+
+	exec ("ls -lah", function (out, error, stdout, stderr) {
 		response.writeHead(200, {"Content-Type" : "text/plain"});
 		response.write(stdout);
 		response.end();
@@ -19,8 +23,10 @@ exports.start = function (response) {
 
 exports.upload = function (response) {
 	logit('upload');
-		
-	return "Hello upload"
+
+	response.writeHead(200, {"Content-Type" : "text/plain"});
+	response.write("Hello upload");
+	response.end();
 }
 
 exports.error = function () {
@@ -28,3 +34,6 @@ exports.error = function () {
 
 	return "404 Not Found"
 }
+
+exports.start = start;
+exports.upload = upload;
